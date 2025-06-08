@@ -29,7 +29,7 @@ Exécute les commandes suivantes et place les fichiers JAR dans les dossiers `cl
 curl -O https://repo1.maven.org/maven2/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar  
 curl -O https://repo1.maven.org/maven2/org/xerial/sqlite-jdbc/3.42.0.0/sqlite-jdbc-3.42.0.0.jar
 
-## 2. Générer le keystore SSL (PKCS12)
+### 2. Générer le keystore SSL (PKCS12)
 
 Utilise OpenSSL pour créer le certificat et le keystore. Exécute les commandes suivantes et place le fichier `keystore.p12` dans le dossier `server/` :
 
