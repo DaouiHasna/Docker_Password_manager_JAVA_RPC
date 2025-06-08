@@ -1,3 +1,6 @@
+Bien sûr ! Voici ton fichier README complet corrigé en markdown, avec les titres bien en dehors des blocs de code pour que tout s’affiche correctement :
+
+````markdown
 # Gestionnaire de Mots de Passe Sécurisé
 
 ## Description
@@ -28,6 +31,7 @@ Exécute les commandes suivantes et place les fichiers JAR dans les dossiers `cl
 ```bash
 curl -O https://repo1.maven.org/maven2/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar  
 curl -O https://repo1.maven.org/maven2/org/xerial/sqlite-jdbc/3.42.0.0/sqlite-jdbc-3.42.0.0.jar
+````
 
 ### 2. Générer le keystore SSL (PKCS12)
 
@@ -40,6 +44,7 @@ openssl req -x509 -newkey rsa:2048 -keyout server.key -out server.crt \
 
 openssl pkcs12 -export -inkey server.key -in server.crt \
   -out keystore.p12 -name server
+```
 
 ### 3. Construire les images Docker
 
@@ -47,7 +52,7 @@ Depuis la racine du projet, lance la construction des images Docker :
 
 ```bash
 docker-compose build
-
+```
 
 ### 4. Démarrer les services
 
@@ -55,6 +60,7 @@ Pour lancer le serveur et le client, exécute :
 
 ```bash
 docker-compose up
+```
 
 ### 5. Arrêter les services
 
@@ -62,35 +68,39 @@ Pour arrêter proprement tous les conteneurs, utilise :
 
 ```bash
 docker-compose down
-
+```
 
 ### 6. Structure du projet
 
+```plaintext
 password-manager/
 ├── client/
-│ ├── PasswordManagerClient.java
-│ ├── Dockerfile.client
-│ ├── gson-2.10.1.jar
-│ └── sqlite-jdbc-3.42.0.0.jar
+│   ├── PasswordManagerClient.java
+│   ├── Dockerfile.client
+│   ├── gson-2.10.1.jar
+│   └── sqlite-jdbc-3.42.0.0.jar
 ├── server/
-│ ├── PasswordManagerServer.java
-│ ├── Dockerfile.server
-│ ├── keystore.p12
-│ ├── gson-2.10.1.jar
-│ └── sqlite-jdbc-3.42.0.0.jar
+│   ├── PasswordManagerServer.java
+│   ├── Dockerfile.server
+│   ├── keystore.p12
+│   ├── gson-2.10.1.jar
+│   └── sqlite-jdbc-3.42.0.0.jar
 ├── data/
 ├── docker-compose.yml
 └── README.md
+```
 
+## Sécurité
 
-### 7. Sécurité
+* Les mots de passe utilisateurs sont hachés avec SHA-256 et salés avant stockage.
+* Les mots de passe stockés sont chiffrés avec AES-256.
+* Toutes les communications client-serveur sont chiffrées via TLS 1.3.
+* La gestion des sessions est sécurisée et temporaire.
 
-- Les mots de passe utilisateurs sont hachés avec SHA-256 et salés avant stockage.
-- Les mots de passe stockés sont chiffrés avec AES-256.
-- Toutes les communications client-serveur sont chiffrées via TLS 1.3.
-- La gestion des sessions est sécurisée et temporaire.
+## Auteurs
 
-### 8. Auteurs
+* Hasna Daoui
+* Nana Diawara
 
-- Hasna Daoui  
-- Nana Diawara
+```
+
