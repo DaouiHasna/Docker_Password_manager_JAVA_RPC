@@ -16,6 +16,7 @@ import com.google.gson.*;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;  
 
 /**
  * PasswordManagerServer with a simple Swing GUI.
@@ -145,12 +146,41 @@ public class PasswordManagerServer {
         }
     }
 
-    /** Generate a fresh AES‐256 key for encrypting account passwords. */
+
     private static void generateServerKey() throws Exception {
+    String keyFilePath = "server.key";
+    File keyFile = new File(keyFilePath);
+    
+    if (keyFile.exists()) {
+        // Load existing key from file
+        try (FileInputStream fis = new FileInputStream(keyFile)) {
+            byte[] keyBytes = fis.readAllBytes();
+            serverKey = new SecretKeySpec(keyBytes, "AES");
+            System.out.println("[SERVER] Loaded existing encryption key from " + keyFilePath);
+        }
+    } else {
+        // Generate new key and save it to file
         KeyGenerator kg = KeyGenerator.getInstance("AES");
         kg.init(256);
         serverKey = kg.generateKey();
+        
+        // Save the key to file for future use
+        try (FileOutputStream fos = new FileOutputStream(keyFile)) {
+            fos.write(serverKey.getEncoded());
+            System.out.println("[SERVER] Generated new encryption key and saved to " + keyFilePath);
+        }
+        
+        // Set file permissions to be readable only by owner (Unix/Linux)
+        try {
+            keyFile.setReadable(false, false);
+            keyFile.setReadable(true, true);
+            keyFile.setWritable(false, false);
+            keyFile.setWritable(true, true);
+        } catch (Exception e) {
+            System.out.println("[SERVER] Warning: Could not set restrictive permissions on key file");
+        }
     }
+}
 
     /** Build SSLContext from a PKCS12 keystore (“keystore.p12” / password “cyber”). */
     private static SSLContext createSSLContext() throws Exception {
